@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -12,22 +11,27 @@ import android.widget.Toast;
  * Created by Rocio_Wang on 2015/5/7.
  */
 public class DialogControl extends  AlertDialog.Builder{
-    private static String DATABASE_TABLE = "titles";
-    private SQLiteDatabase mDb;
-    private DBHelper mDbHelper;
+    public static final String AUTHORITY ="com.example.rocio_wang.gourmetlists";
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/"+ "RESTAURANT_TABLE");
 
     DialogInterface.OnClickListener listener;
+    DBContentProvider mContentProvider = new DBContentProvider();
 
     public DialogControl(Context context, String add) {
         super(context);
         OptionDialog(context, add);
     }
 
+
+
     public void OptionDialog(final Context context, final String address){
         listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
+                        Uri uri = Uri.parse("tel:123456089");
+                        Intent phoneCall = new Intent(Intent.ACTION_CALL, uri);
+                        context.startActivity(phoneCall);
                         break;
                     case 1:
                         Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + address);
@@ -40,13 +44,10 @@ public class DialogControl extends  AlertDialog.Builder{
                     case 2:
                         break;
                     case 3:
-                        mDbHelper = new DBHelper(context);
-                        mDb = mDbHelper.getWritableDatabase();
-                        mDb.delete(DATABASE_TABLE, "title='" + address + "'", null);
+                        mContentProvider.delete(CONTENT_URI, "title='" + address + "'", null);;
                         Toast.makeText(context, "刪除" + address, Toast.LENGTH_SHORT).show();
-                        RunListView runList = new  RunListView();
-                        runList.RunList(context);
                     break;
+
                 }
             }
         };

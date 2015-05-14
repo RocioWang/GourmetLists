@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 
 public class MainActivity extends Activity {
     public  static ListView mMainListView;
-    public static ArrayAdapter<String> mListAdapter;
-//  public static String DATABASE_TABLE = "titles";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +17,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mMainListView = (ListView) findViewById(R.id.listView);
 
-        RunListView runList = new  RunListView();
-        runList.RunList(MainActivity.this);
+//        ReloadList reloadList = new ReloadList();
+//        reloadList.Reload(this);
+        ReloadList runList = new ReloadList();
+        runList.RunList(this);
     }
 
     //Menu
@@ -45,13 +44,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        onCreate(null);
     }
 
     @Override

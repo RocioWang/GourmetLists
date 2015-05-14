@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rocio_wang.gourmetlists" >
 
+
+    <uses-sdk
+        android:minSdkVersion="18"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,14 +15,23 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AddListActivity"
             android:label="@string/title_activity_add_list" >
         </activity>
+
+        <provider android:name="DBContentProvider"
+            android:authorities="com.example.rocio_wang.gourmetlists"
+            android:multiprocess="true"
+            android:readPermission="demo.content.provider.PERMISSION.READ"
+            android:writePermission="demo.content.provider.PERMISSION.WRITE">
+        </provider>
+
     </application>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
 </manifest>
